@@ -10,7 +10,7 @@ Static analysis of the CUDA C++ Core Libraries (CCCL) repository using 17 automa
 | [cpplint](cpplint.md) | 9,001 | C/C++ Style | done |
 | [cppcheck](cppcheck.md) | 209 | C/C++ Deep Analysis | done |
 | [ruff](ruff.md) | 9,173 | Python Linting | done |
-| [shellcheck](shellcheck.md) | 255 → 158 | Shell Script | **97 fixed** ([PR #8739](https://github.com/NVIDIA/cccl/pull/8739)) |
+| [shellcheck](shellcheck.md) | 255 → 158 | Shell Script | **97 fixed** ([PR #8749](https://github.com/NVIDIA/cccl/pull/8749)) |
 | [yamllint](yamllint.md) | 527 | YAML Validation | done |
 | [cmake-lint](cmake-lint.md) | 0 | CMake Formatting | done |
 | [clang-tidy](clang-tidy.md) | 88,838 | C/C++ Modernization | done (noisy — see report) |
@@ -27,8 +27,8 @@ Static analysis of the CUDA C++ Core Libraries (CCCL) repository using 17 automa
 ## Priority Findings
 
 ### Security-Relevant
-- **shellcheck:** ~~8 errors~~ **Fixed** — unquoted array expansions in CI scripts (SC2068, SC2199) — [PR #8739](https://github.com/NVIDIA/cccl/pull/8739)
-- **cppcheck:** 14 errors — including uninitialized variables
+- **shellcheck:** ~~8 errors~~ **Fixed** — unquoted array expansions in CI scripts (SC2068, SC2199) — [PR #8749](https://github.com/NVIDIA/cccl/pull/8749)
+- **cppcheck:** ~~14 errors~~ 12 remaining — uninitialized variables fixed in [PR #8748](https://github.com/NVIDIA/cccl/pull/8748), [PR #8750](https://github.com/NVIDIA/cccl/pull/8750)
 - **flawfinder:** `getenv` (65), `system` (305) usage in production code
 - **bandit:** 25 subprocess-related findings in CI/build scripts (B602, B603, B607)
 - **semgrep-python:** 24 `open()` calls with potentially unsanitized paths
@@ -36,7 +36,7 @@ Static analysis of the CUDA C++ Core Libraries (CCCL) repository using 17 automa
 ### Code Quality
 - **cppcheck:** 18 uninitialized member variables, 72 missing `explicit` constructors
 - **cpplint:** 8 thread-unsafe function calls
-- **pylint:** 203 `no-member` findings (accessing non-existent attributes)
+- **pylint:** 203 `no-member` findings (accessing non-existent attributes); unbound variable fix in [PR #8751](https://github.com/NVIDIA/cccl/pull/8751)
 - **gcc-warnings:** 21 `-Wlogical-not-parentheses` (potential logic bugs), 19 `-Wfloat-equal`
 - **semgrep-cpp:** 47 C-style pointer casts in non-vendor code
 - **ruff:** 314 print statements left in Python code
@@ -53,9 +53,12 @@ Static analysis of the CUDA C++ Core Libraries (CCCL) repository using 17 automa
 
 | Issue | PR | Status |
 |-------|-----|--------|
-| [#8736](https://github.com/NVIDIA/cccl/issues/8736) — Unquoted array expansions (SC2068/SC2199/SC2145/SC2091) | [#8739](https://github.com/NVIDIA/cccl/pull/8739) | Filed |
-| [#8737](https://github.com/NVIDIA/cccl/issues/8737) — Masked return values (SC2155) | [#8739](https://github.com/NVIDIA/cccl/pull/8739) | Filed |
-| [#8738](https://github.com/NVIDIA/cccl/issues/8738) — Shell robustness (SC2140/SC2207/SC2206/etc) | [#8739](https://github.com/NVIDIA/cccl/pull/8739) | Filed |
+| [#8736](https://github.com/NVIDIA/cccl/issues/8736) — Unquoted array expansions (SC2068/SC2199/SC2145/SC2091) | [#8749](https://github.com/NVIDIA/cccl/pull/8749) | Open |
+| [#8737](https://github.com/NVIDIA/cccl/issues/8737) — Masked return values (SC2155) | [#8749](https://github.com/NVIDIA/cccl/pull/8749) | Open |
+| [#8738](https://github.com/NVIDIA/cccl/issues/8738) — Shell robustness (SC2140/SC2207/SC2206/etc) | [#8749](https://github.com/NVIDIA/cccl/pull/8749) | Open |
+| — Uninitialized iterator state (uninitvar) | [#8748](https://github.com/NVIDIA/cccl/pull/8748) | Open |
+| — Uninitialized BuildInformation members (uninitMemberVarPrivate) | [#8750](https://github.com/NVIDIA/cccl/pull/8750) | Open |
+| — Unbound variables in cuda.coop (E0606) | [#8751](https://github.com/NVIDIA/cccl/pull/8751) | Open |
 
 ## Running Analysis
 

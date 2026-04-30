@@ -719,6 +719,11 @@ class Algorithm:
                 provide_alloc_version = True
                 storage = "__shared__ temp_storage_t temp_storage;"
                 sync = "__syncthreads();"
+            else:
+                raise ValueError(
+                    f"Unsupported algorithm type '{self.struct_name}': "
+                    "expected name starting with 'Warp' or 'Block'"
+                )
 
             buf = StringIO()
             w = buf.write
